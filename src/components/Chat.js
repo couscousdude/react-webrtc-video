@@ -1,8 +1,9 @@
 import React from 'react';
+import VideoChatContainer from './VideoContainer/VideoContainer';
 
 function Chat(props) {
     return (
-        <h1>Video Chat Placeholder</h1>
+        <VideoChatContainer />
     )
 }
 

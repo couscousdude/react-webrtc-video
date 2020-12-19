@@ -6,9 +6,11 @@ import Navbar from './components/Navbar/Navbar';
 import NavDrawer from './components/Navbar/NavDrawer';
 import React from 'react';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 
 const drawerItems = [
-  {icon: <VideoCallIcon />, text: 'Video Chat'}
+  {icon: <VideoCallIcon />, text: 'Video Chat', key: 'chat'},
+  {icon: <AccountBoxIcon />, text: 'Profile', key: 'profile'}
 ];
 
 function App() {
@@ -16,7 +18,7 @@ function App() {
 
   return (
     <Router>
-      <div style={{marginBottom: 60}}>
+      <div style={{height: 60}}>
         <Navbar handleMenuClick={() => {setDrawer(true)}} />
       </div>
       <NavDrawer open={drawer} items={drawerItems} handleClose={() => {setDrawer(false)}} />

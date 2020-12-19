@@ -18,11 +18,11 @@ function NavDrawer(props) {
             <List className={classes.list}>
                 { items.map(item => (
                     <ListItem button>
-                        <ListItemIcon>{item.icon}</ListItemIcon>
+                        <ListItemIcon key={item.key}>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.text}/>
                     </ListItem>
                 )) }
-                <Divider />
+                <Divider/>
             </List>
         </Drawer>
     )
