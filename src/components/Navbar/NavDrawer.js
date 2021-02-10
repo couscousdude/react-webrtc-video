@@ -23,9 +23,9 @@ function NavDrawer(props) {
                     </ListItem>
                 )) }
                 <Divider/>
-            </List>
+            </List> 
         </Drawer>
-    )
+    )   
 }
 
 export default NavDrawer;

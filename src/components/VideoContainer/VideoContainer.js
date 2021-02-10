@@ -3,7 +3,7 @@ import VideoChat from './VideoChat';
 
 function VideoChatContainer(props) {
     return(
-        <VideoChat />
+        <VideoChat isLoggedIn={true} />
     );
 }
 

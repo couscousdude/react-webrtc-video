@@ -7,6 +7,7 @@ import NavDrawer from './components/Navbar/NavDrawer';
 import React from 'react';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import CreateCall from './components/VideoContainer/CreateCall';
 
 const drawerItems = [
   {icon: <VideoCallIcon />, text: 'Video Chat', key: 'chat'},
@@ -25,7 +26,10 @@ function App() {
       <Switch>
         <Redirect from='/' to='/home' exact />
         <Route path='/home' component={Home} />
-        <Route path='/chat' component={Chat} />
+        {/* <Route path='/chat' exact component={Chat} /> */}
+        <Route path='/chat'>
+          <Chat />
+        </Route>
       </Switch>
     </Router>
   );
