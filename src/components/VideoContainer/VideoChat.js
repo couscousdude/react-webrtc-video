@@ -10,7 +10,7 @@ function VideoChat(props) {
     const { isLoggedIn } = props;
     // const [createCallDialogOpen, setCreateCallDialogOpen] = React.useState(false);
     const history = useHistory();
-    const [joinCallDialogueOpen, setJoinCallDialogueOpen] = React.useState(false);
+    // const [joinCallDialogueOpen, setJoinCallDialogueOpen] = React.useState(false);
 
     const handleStartMeeting = () => {
         history.push('/chat/create');
@@ -21,11 +21,11 @@ function VideoChat(props) {
     }
 
     const handleJoinMeeting = () => {
-        setJoinCallDialogueOpen(true);
+        history.push('/chat/join');
     }
 
     const handleCancelJoinMeeting = () => {
-        setJoinCallDialogueOpen(false);
+        // setJoinCallDialogueOpen(false);
     }
 
     return(
@@ -33,7 +33,7 @@ function VideoChat(props) {
             <Button onClick={handleStartMeeting}>{isLoggedIn ? 'Start Meeting' : 'Login'}</Button>
             <Button onClick={handleJoinMeeting}>Join Meeting</Button>
             {/* <CreateCall open={createCallDialogOpen} handleClose={handleCancelMeeting} /> */}
-            <JoinCall open={joinCallDialogueOpen} handleClose={handleCancelJoinMeeting} />
+            {/* <JoinCall open={joinCallDialogueOpen} handleClose={handleCancelJoinMeeting} /> */}
         </div>
     );
 }
