@@ -1,8 +1,8 @@
-const config = require('./config.json');
 import firebase from 'firebase';
 import firebaseConfig from '../../../public/firebaseConfig';
+const config = require('./config.json');
 
-async function createCall() {
+async function createCall(peerConnection) {
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     } else {
