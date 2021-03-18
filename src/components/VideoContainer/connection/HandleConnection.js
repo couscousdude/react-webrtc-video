@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import firebaseConfig from '../../../public/firebaseConfig';
 
-class ConnectionHandler {
+export default class ConnectionHandler {
     constructor(config) {
         this.config = config;
         this.peerConnection = null;
@@ -20,6 +20,23 @@ class ConnectionHandler {
     
         console.log(`DB Connection Started. Creating PeerConnection with config: ${this.config}`);
         this.peerConnection = new RTCPeerConnection(this.config);
+
+        // Send webcam/audio track to remote client
+        this.localStream
+            .getTracks() // returns array
+            .forEach(track => {
+                this.peerConnection.addTrack(track, this.localStream);
+            });
+        
+        // assume peerconnection is RTCPeerConnection instance
+        this.peerConnection.addEventListener('track', event => {
+            console.log(`Received remote track: ${event.streams[0]}`);
+            event.streams[0]
+                .getTracks()
+                .forEach(track => {
+                    this.remoteStream.addTrack(track);
+                });
+        });
     }
     async joinCallById(roomId) {
         if (!firebase.apps.length) {
@@ -36,7 +53,24 @@ class ConnectionHandler {
         if (roomSnapshot.exists) {
             console.log(`Creating PeerConnection with configuration: ${this.config}`);
             this.peerConnection = new RTCPeerConnection(this.config);
+
+            this.localStream
+                .getTracks()
+                .forEach(track => {
+                    peerConnection.addTrack(track, this.localStream);
+                });
         }
+
+        this.peerConnection.addEventListener('track', event => {
+            console.log(`Received remote webcam/audio track: ${event.streams[0]}`);
+            event.streams[0]
+                .getTracks()
+                .forEach(track => {
+                    this.remoteStream.addTrack(track);
+                });
+        });
+
+
     }
     async openUserMedia(e) {
         const stream = await navigator.mediaDevices.getUserMedia(
@@ -44,9 +78,3 @@ class ConnectionHandler {
         );
     }
 }
-
-const connectionHandler = new ConnectionHandler();
-const dfjlkfdaljk = new ConnectionHandler();
-
-connectionHandler.printConfig();
-connectionHandler.createCall();
