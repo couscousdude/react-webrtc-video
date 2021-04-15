@@ -16,6 +16,7 @@ const useStyles = makeStyles({
 
 function CreateCall(props) {
     const classes = useStyles();
+    const {handleSubmit} = props;
 
     const [username, setUsername] = React.useState('');
     const [meetingName, setMeetingName] = React.useState('');
@@ -31,7 +32,7 @@ function CreateCall(props) {
         setMeetingCode(event.target.value);
     }
     const handleButtonPressed = () => {
-        
+        handleSubmit();
     }
 
     return(
@@ -84,5 +85,5 @@ function CreateCall(props) {
 
 export default CreateCall;
 CreateCall.propTypes = {
-
+    handleSubmit: PropTypes.func
 }

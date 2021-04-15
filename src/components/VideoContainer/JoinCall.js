@@ -16,7 +16,8 @@ const useStyles = makeStyles({
     }
 });
 
-const JoinCall = () => {
+const JoinCall = props => {
+    const { handleSubmit } = props;
     const classes = useStyles();
     const location = useLocation();
 
@@ -33,7 +34,7 @@ const JoinCall = () => {
         setMeetingCode(event.target.value);
     }
     const handleButtonPressed = () => {
-        
+        handleSubmit(meetingCode)
     }
 
     return(
@@ -79,3 +80,6 @@ const JoinCall = () => {
 }
 
 export default JoinCall;
+JoinCall.propTypes = {
+    handleSubmit: PropTypes.func,
+}

@@ -1,40 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+const MediaDisplay = (props) => {
+    const { openMedia, remoteTracks } = props;
 
-const MediaDisplay = () => {
-    const [videoSrc, setVideoSrc] = React.useState(null);
-    // const videoRef = React.useRef(null);
+    // React.useEffect(() => {
+    //     let remoteStream = document.querySelector('#remoteVideo').srcObject;
+    //     let localStream = document.querySelector('#localVideo').srcObject;
 
-    React.useEffect(() => {
-        // navigator.mediaDevices.getUserMedia(
-        //     {video: true, audio: true}, handleVideo);
-        
-        // handleVideo(stream);
-        openVideo();
-    }, []);
-
-    const openVideo = async () => {
-        // const stream = await navigator.mediaDevices.getUserMedia(
-        //     {video: true, audio: true});
-        // handleVideo(stream);
-        let stream = await navigator.mediaDevices.getUserMedia(
-            {video: true}
-        );
-        document.querySelector('#localVideo').srcObject = stream;
-    }
-
-    // const handleVideo = (stream) => {
-    //     // videoRef.src = window.URL.createObjectURL(stream);
-    //     setVideoSrc(window.URL.createObjectURL(stream));
-    // }
+    //     if (remoteTracks && !remoteStream) {
+    //         remoteTracks
+    //             .forEach(track => {
+    //                 remoteStream.srcObject.addTrack(track);
+    //             })
+    //     }
+    //     console.log(localStream);
+    // });
 
     return (
         <div>
-            {/* <button onClick={() => {document.querySelector('#localVideo').srcObject = stream;}}>open video</button> */}
-            {/* <video src={videoSrc} playsInline muted autoPlay></video> */}
             <video id='localVideo' playsInline muted autoPlay></video>
+            <video id='remoteVideo' playsInline autoPlay></video>
+            <button onClick={openMedia}>open camera</button>
+            <button />
         </div>
     );
 }
 
 export default MediaDisplay;
-
+MediaDisplay.propTypes = {
+    openMedia: PropTypes.func
+}

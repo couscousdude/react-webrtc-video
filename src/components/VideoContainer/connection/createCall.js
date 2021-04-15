@@ -11,6 +11,8 @@ async function createCall(peerConnection) {
     const db = firebase.firestore();
 
     console.log(`DB Connection Started. Creating PeerConnection with config: ${config}`);
+    
+
     peerConnection = new RTCPeerConnection(config);
 
     // localstream addtracks here

@@ -1,12 +1,11 @@
 import React from 'react';
-import VideoChat from './VideoChat';
-import MediaDisplay from './MediaDisplay';
+import VideoHomepage from './VideoHomepage';
 
 function VideoChatContainer(props) {
     return(
         <div>
-            <VideoChat isLoggedIn={true} />
-            <MediaDisplay />
+            <VideoHomepage isLoggedIn={true} />
+            {/* <MediaDisplay /> */}
         </div>
     );
 }
