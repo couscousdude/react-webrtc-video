@@ -1,81 +1,85 @@
 import React from 'react';
-import { TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import firebase from 'firebase';
-import firebaseConfig from '../../public/firebaseConfig';
+import { Grid, Typography, TextField, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { useLocation } from 'react-router-dom';
+import { parse } from 'query-string'; 
 
-function JoinCall(props) {
-    const { open, handleClose } = props;
+const useStyles = makeStyles({
+    title: {
+        marginTop: '15px',
+        fontWeight: '500',
+    },
+    button: {
+        left: '50%',
+        transform: 'translateX(-50%)'
+    }
+});
+
+const JoinCall = props => {
+    const { handleSubmit } = props;
+    const classes = useStyles();
+    const location = useLocation();
+
+    const params = parse(location.search);
 
     const [username, setUsername] = React.useState('');
-    const [joinCode, setJoinCode] = React.useState('');
+    const [meetingCode, setMeetingCode] = React.useState(params.code);
+    // const [meetingCode, setMeetingCode] = React.useState(match.params.code)
 
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    } else {
-        firebase.app();
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
+    }
+    const handleMeetingCodeChange = (event) => {
+        setMeetingCode(event.target.value);
+    }
+    const handleButtonPressed = () => {
+        handleSubmit(meetingCode)
     }
 
-    const db = firebase.firestore();
-
-    const joinMeeting = async () => {
-        try {
-            const roomRef = await db.collection('rooms').doc(joinCode);
-            await roomRef.update({
-                calleeUsername: username
-            });
-        } catch(err) {
-            console.log(`An error occurred: ${err}`);
-        } finally {
-            handleClose();
-        }
-    }
-
-    const handleUsernameInput = e => {
-        setUsername(e.target.value);
-    }
-
-    const handleJoinCodeInput = e => {
-        setJoinCode(e.target.value);
-    }
-
-    
-
-    return (
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle>Create Call</DialogTitle>
-            <DialogContent>
-                <TextField
+    return(
+        <Grid container justify='center' spacing={3}>
+            <Grid 
+                item 
+                xl={12} 
+                lg={12} 
+                md={12} 
+                sm={12} 
+                xs={12} 
+                align='center'
+            >
+                <Typography variant='h3' className={classes.title}>Join Meeting</Typography>
+            </Grid>
+            <Grid item xl={8} lg={8} md={8} sm={10} xs={10}>
+                <TextField 
+                    variant='outlined' 
                     autoFocus
-                    margin='dense'
-                    id='name'
-                    label='Username'
-                    type='text'
+                    label='Meeting Code' 
+                    onChange={handleMeetingCodeChange} 
                     fullWidth
-                    onChange={handleUsernameInput}
+                    defaultValue={meetingCode}
                 />
-                <TextField
-                    margin= 'dense'
-                    id='title'
-                    label='Join Code'
-                    onChange={handleJoinCodeInput}
-                    type='text'
-                    fullWidth
+            </Grid>
+            <Grid item xl={12} xs={12} md={12} sm={12} lg={12} />
+            <Grid item xl={4} lg={4} md={4} sm={10} xs={10}>
+                <TextField 
+                    variant='outlined' 
+                    label='Username' 
+                    onChange={handleUsernameChange} 
+                    fullWidth 
                 />
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose}>
-                    Cancel
+            </Grid>
+            <Grid item xl={1} lg={1} md={1} sm={12} xs={12}>
+                <Button variant='contained' onClick={handleButtonPressed} color='primary' className={classes.button}>
+                    Join
                 </Button>
-                <Button onClick={joinMeeting}>
-                    Join Meeting
-                </Button>
-            </DialogActions>
-        </Dialog>
-    )
+            </Grid>
+            <Grid item xl={3} lg={3} md={3} xs={12} sm={12} />
+        </Grid>
+    );
 }
+
 export default JoinCall;
 JoinCall.propTypes = {
-    open: PropTypes.bool,
-    handleClose: PropTypes.func
+    handleSubmit: PropTypes.func,
 }
