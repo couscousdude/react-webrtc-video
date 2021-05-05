@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 const MediaDisplay = (props) => {
-    const { openMedia, remoteTracks } = props;
+    const { localId, remoteId } = props;
 
     // React.useEffect(() => {
     //     let remoteStream = document.querySelector('#remoteVideo').srcObject;
@@ -18,15 +18,14 @@ const MediaDisplay = (props) => {
 
     return (
         <div>
-            <video id='localVideo' playsInline muted autoPlay></video>
-            <video id='remoteVideo' playsInline autoPlay></video>
-            <button onClick={openMedia}>open camera</button>
-            <button />
+            <video id={localId.slice(1)} playsInline muted autoPlay></video>
+            <video id={remoteId.slice(1)} playsInline autoPlay></video>
         </div>
     );
 }
 
 export default MediaDisplay;
 MediaDisplay.propTypes = {
-    openMedia: PropTypes.func
+    localId: PropTypes.string,
+    remoteId: PropTypes.string
 }

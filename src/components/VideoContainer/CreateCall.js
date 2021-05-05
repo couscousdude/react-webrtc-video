@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 
 function CreateCall(props) {
     const classes = useStyles();
-    const {handleSubmit} = props;
+    const { handleSubmit } = props;
 
     const [username, setUsername] = React.useState('');
     const [meetingName, setMeetingName] = React.useState('');

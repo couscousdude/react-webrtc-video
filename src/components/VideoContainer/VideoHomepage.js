@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 // import CreateCall from './CreateCallModal';
 import { useHistory } from 'react-router-dom';
 import MediaDisplay from './MediaDisplay';
-import { NotificationManager } from 'react-notifications';
-
 
 function VideoHomePage(props) {
     const { isLoggedIn, openUserMedia } = props;
@@ -21,15 +19,10 @@ function VideoHomePage(props) {
         history.push('/chat/join');
     }
 
-    const sendNotif = () => {
-        NotificationManager.info('test message');
-    }
-
     return(
         <div>
             <Button onClick={handleStartMeeting}>{isLoggedIn ? 'Start Meeting' : 'Login'}</Button>
             <Button onClick={handleJoinMeeting}>Join Meeting</Button>
-            <button onClick={sendNotif} />
         </div>
     );
 }

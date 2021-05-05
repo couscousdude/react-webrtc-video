@@ -10,6 +10,18 @@ export default class ConnectionHandler {
         this.remoteStream = null;
         this.roomId = null;
     }
+
+    sendTracks() {
+        // Send webcam/audio track to remote client
+        // if (this.localStream) {
+            this.localStream
+                .getTracks() // returns array
+                .forEach(track => {
+                    this.peerConnection.addTrack(track, this.localStream);
+                });
+        // }
+    }
+
     async createCall() {
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
@@ -42,13 +54,6 @@ export default class ConnectionHandler {
             ],
             "iceCandidatePoolSize": 10
         });
-
-        // Send webcam/audio track to remote client
-        this.localStream
-            .getTracks() // returns array
-            .forEach(track => {
-                this.peerConnection.addTrack(track, this.localStream);
-            });
         
         // Collect ICE candidates
 
@@ -109,6 +114,13 @@ export default class ConnectionHandler {
                 }
             })
         })
+        // if (this.localStream) {
+        //     this.localStream
+        //     .getTracks() // returns array
+        //     .forEach(track => {
+        //         this.peerConnection.addTrack(track, this.localStream);
+        //     });
+        // }
     }
     async joinCallById(roomId) {
         if (!firebase.apps.length) {
@@ -125,12 +137,6 @@ export default class ConnectionHandler {
         if (roomSnapshot.exists) {
             console.log(`Creating PeerConnection with configuration: ${this.config}`);
             this.peerConnection = new RTCPeerConnection(this.config);
-
-            this.localStream
-                .getTracks()
-                .forEach(track => {
-                    this.peerConnection.addTrack(track, this.localStream);
-                });
         }
 
         // Collect ICE candidates
@@ -147,7 +153,6 @@ export default class ConnectionHandler {
         console.log('adding event listener for code');
         this.peerConnection.addEventListener('track', event => {
             console.log(`Received remote webcam/audio track: ${event.streams[0]}`);
-            this.eventStream = event.streams[0];
             event.streams[0]
                 .getTracks()
                 .forEach(track => {
@@ -187,6 +192,8 @@ export default class ConnectionHandler {
                 { video: true, audio: true }
             );
         } catch(error) {
+            console.log(`Opening Video/Audio failed! Trying again with audio only.`)
+
             stream = await navigator.mediaDevices.getUserMedia(
                 { video: false, audio: true }
             );
@@ -230,12 +237,23 @@ export default class ConnectionHandler {
         }
     }
 
-    get remoteTracks() {
-        if (!this.eventStream) {
-            return false;
+    resetRemoteDisplay = (remoteVideo) => {
+        let remoteStream = document.querySelector(remoteVideo);
+        if (typeof(remoteStream) !== undefined && remoteStream !== null) {
+            remoteStream.srcObject = this.remoteStream;
         }
-
-        return this.eventStream.getTracks();
+        if (this.peerConnection) {
+            // if (this.peerConnection.connectionState === 'connected') {
+                console.log('Sending tracks')
+                this.localStream
+                    .getTracks() // returns array
+                    .forEach(track => {
+                        this.peerConnection.addTrack(track, this.localStream);
+                });
+            } else {
+                console.log('not connected');
+            // }
+        }
     }
 }
 
