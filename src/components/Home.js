@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Typography, Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import MuteButton from './MuteButton';
 
 const useStyles = makeStyles({
     header: {
@@ -30,6 +31,7 @@ function Home(props) {
                     </Button>
                 </Grid>
             </Grid>
+            <MuteButton />
         </div>
     )
 }
