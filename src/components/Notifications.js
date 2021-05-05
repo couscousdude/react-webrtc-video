@@ -17,11 +17,11 @@ const Notifications = () => {
     return (
         <>
             <Snackbar open={open}>
-                <MuiAlert severity="success">
+                <MuiAlert severity="primary">
                     {message}
                 </MuiAlert>
             </Snackbar>
-            <button onClick={() => {sendNotif('test')}}>test</button>
+            <button onClick={() => {sendNotif('code')}}>test</button>
         </>
     );
 }
