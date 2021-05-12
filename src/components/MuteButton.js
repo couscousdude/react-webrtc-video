@@ -1,10 +1,42 @@
-import { Typography } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
+import MicIcon from '@material-ui/icons/Mic';
+import MicOffIcon from '@material-ui/icons/MicOff';
 import React from 'react';
 
 const MuteButton = () => {
+    const [muted, setMuted] = React.useState(false);
+
+    const handleClicked = () => {
+        // if (muted) { 
+        //     setMuted(false);
+        // } else {
+        //     setMuted(true);
+        // }
+        setMuted(!muted);
+    }
+
+    const MuteIcon = () => {
+        if (muted) {
+            return (
+                <MicOffIcon />
+            )
+        } else {
+            return (
+                <MicIcon />
+            )
+        }
+    }
+    
     return (
-        <Typography>Test</Typography>
-    );
+        <IconButton 
+            color="primary" 
+            aria-label="mute"
+            onClick={handleClicked}
+        >
+            <MuteIcon />
+            {/* <MicOffIcon /> */}
+        </IconButton>    
+    );      
 }
 
 export default MuteButton;
