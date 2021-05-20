@@ -9,16 +9,13 @@ const config = require('./VideoContainer/connection/config.json');
 
 const connectionHandler = new HandleConnection(config);
 
-const remoteVideoId = '#remoteVideo';
-const localVideoId = '#localVideo';
-
 function Chat(props) {
     let match = useRouteMatch();
     let history = useHistory();
 
     const handleOpenUserMedia = () => {
-        connectionHandler.openUserMedia(localVideoId, remoteVideoId);
-        connectionHandler.resetRemoteDisplay(remoteVideoId);
+        connectionHandler.openUserMedia();
+        // connectionHandler.resetRemoteDisplay(remoteVideoId);
         // connectionHandler.sendTracks();
     }
     
@@ -52,8 +49,8 @@ function Chat(props) {
             </Route>
             <Route path={`${match.path}/meeting`}>
                 <VideoChat
-                    localVideoId={localVideoId}
-                    remoteVideoId={remoteVideoId}
+                    localStream={connectionHandler.localStream}
+                    remoteStream={connectionHandler.remoteStream}
                     onOpen={handleOpenUserMedia}
                 />
             </Route>

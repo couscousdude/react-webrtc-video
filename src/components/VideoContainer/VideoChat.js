@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Button } from '@material-ui/core';
 
 const VideoChat = props => {
-    const { remoteVideoId, localVideoId, onOpen } = props;
+    const { remoteStream, localStream, onOpen } = props;
 
     React.useEffect(() => {
         onOpen();
@@ -13,8 +13,8 @@ const VideoChat = props => {
     return (
         <div>
             <MediaDisplay 
-                localId={localVideoId}
-                remoteId={remoteVideoId}
+                localStream={localStream}
+                remoteStream={remoteStream}
             />
             <Button variant='outlined' onClick={onOpen}>Refresh</Button>
         </div>
@@ -24,7 +24,7 @@ const VideoChat = props => {
 export default VideoChat;
 
 VideoChat.propTypes = {
-    remoteVideoId: PropTypes.string,
-    localVideoId: PropTypes.string,
+    localStream: PropTypes.object,
+    remoteStream: PropTypes.object,
     onOpen: PropTypes.func
 }

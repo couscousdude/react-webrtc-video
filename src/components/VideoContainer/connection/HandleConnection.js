@@ -5,21 +5,10 @@ export default class ConnectionHandler {
     constructor(config) {
         this.config = config;
         this.peerConnection = null;
-        this.localStream = null;
+        this.localStream = new MediaStream();
         this.roomDialog = null;
-        this.remoteStream = null;
+        this.remoteStream = new MediaStream();
         this.roomId = null;
-    }
-
-    sendTracks() {
-        // Send webcam/audio track to remote client
-        // if (this.localStream) {
-            this.localStream
-                .getTracks() // returns array
-                .forEach(track => {
-                    this.peerConnection.addTrack(track, this.localStream);
-                });
-        // }
     }
 
     async createCall() {
@@ -54,6 +43,13 @@ export default class ConnectionHandler {
             ],
             "iceCandidatePoolSize": 10
         });
+
+        // Send webcam/audio track to remote client
+        this.localStream
+            .getTracks() // returns array
+            .forEach(track => {
+                this.peerConnection.addTrack(track, this.localStream);
+            });
         
         // Collect ICE candidates
 
@@ -114,13 +110,6 @@ export default class ConnectionHandler {
                 }
             })
         })
-        // if (this.localStream) {
-        //     this.localStream
-        //     .getTracks() // returns array
-        //     .forEach(track => {
-        //         this.peerConnection.addTrack(track, this.localStream);
-        //     });
-        // }
     }
     async joinCallById(roomId) {
         if (!firebase.apps.length) {
@@ -137,6 +126,12 @@ export default class ConnectionHandler {
         if (roomSnapshot.exists) {
             console.log(`Creating PeerConnection with configuration: ${this.config}`);
             this.peerConnection = new RTCPeerConnection(this.config);
+
+            this.localStream
+                .getTracks()
+                .forEach(track => {
+                    this.peerConnection.addTrack(track, this.localStream);
+                });
         }
 
         // Collect ICE candidates
@@ -153,6 +148,7 @@ export default class ConnectionHandler {
         console.log('adding event listener for code');
         this.peerConnection.addEventListener('track', event => {
             console.log(`Received remote webcam/audio track: ${event.streams[0]}`);
+            this.eventStream = event.streams[0];
             event.streams[0]
                 .getTracks()
                 .forEach(track => {
@@ -198,10 +194,12 @@ export default class ConnectionHandler {
                 { video: false, audio: true }
             );
         }
-        document.querySelector(localVideo).srcObject = stream;
-        this.localStream = stream;
-        this.remoteStream = new MediaStream();
-        document.querySelector(remoteVideo).srcObject = this.remoteStream;
+        // document.querySelector(localVideo).srcObject = stream;
+        // this.localStream = stream;
+        stream.getTracks().forEach(track => {
+            this.localStream.addTrack(track);
+        });
+        // document.querySelector(remoteVideo).srcObject = this.remoteStream;
         // document.querySelector(remoteVideo).srcObject = stream;
     }
 
@@ -234,25 +232,6 @@ export default class ConnectionHandler {
             });
             
             await roomRef.delete();
-        }
-    }
-
-    resetRemoteDisplay = (remoteVideo) => {
-        let remoteStream = document.querySelector(remoteVideo);
-        if (typeof(remoteStream) !== undefined && remoteStream !== null) {
-            remoteStream.srcObject = this.remoteStream;
-        }
-        if (this.peerConnection) {
-            // if (this.peerConnection.connectionState === 'connected') {
-                console.log('Sending tracks')
-                this.localStream
-                    .getTracks() // returns array
-                    .forEach(track => {
-                        this.peerConnection.addTrack(track, this.localStream);
-                });
-            } else {
-                console.log('not connected');
-            // }
         }
     }
 }
