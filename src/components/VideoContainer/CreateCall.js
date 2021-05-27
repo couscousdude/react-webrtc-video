@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography, TextField, Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { NotificationsManager } from 'react-notifications';
+import NotificationManager from 'react-notifications/lib/NotificationManager';
 
 const useStyles = makeStyles({
     title: {
@@ -9,7 +11,7 @@ const useStyles = makeStyles({
         fontWeight: '500',
     },
     button: {
-        left: '50%',
+        left:  '50%',
         transform: 'translateX(-50%)'
     }
 });
@@ -33,6 +35,7 @@ function CreateCall(props) {
     }
     const handleButtonPressed = () => {
         handleSubmit();
+        NotificationManager.success('Calel Created Successfully.');
     }
 
     return(

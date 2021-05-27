@@ -67,6 +67,7 @@ const JoinCall = props => {
                     label='Username' 
                     onChange={handleUsernameChange} 
                     fullWidth 
+                    autoFocus
                 />
             </Grid>
             <Grid item xl={1} lg={1} md={1} sm={12} xs={12}>

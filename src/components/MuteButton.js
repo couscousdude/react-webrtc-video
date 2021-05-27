@@ -7,11 +7,6 @@ const MuteButton = () => {
     const [muted, setMuted] = React.useState(false);
 
     const handleClicked = () => {
-        // if (muted) { 
-        //     setMuted(false);
-        // } else {
-        //     setMuted(true);
-        // }
         setMuted(!muted);
     }
 

@@ -15,8 +15,6 @@ function Chat(props) {
 
     const handleOpenUserMedia = () => {
         connectionHandler.openUserMedia();
-        // connectionHandler.resetRemoteDisplay(remoteVideoId);
-        // connectionHandler.sendTracks();
     }
     
     const handleCreateCall = async () => {
@@ -27,6 +25,10 @@ function Chat(props) {
     const handleJoinCall = async roomId => {
         history.push('/chat/meeting');
         await connectionHandler.joinCallById(roomId);
+    }
+
+    const handleHangUp = () => {
+        connectionHandler.hangUp();
     }
 
     return (
@@ -52,6 +54,7 @@ function Chat(props) {
                     localStream={connectionHandler.localStream}
                     remoteStream={connectionHandler.remoteStream}
                     onOpen={handleOpenUserMedia}
+                    onClose={handleHangUp}
                 />
             </Route>
         </Switch>

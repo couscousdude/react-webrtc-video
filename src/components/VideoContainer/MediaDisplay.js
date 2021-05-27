@@ -1,49 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactPlayer from 'react-player';
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
+
+const useStyles = makeStyles(() => ({
+    'playerWrapper': {
+        position: 'relative',
+        paddingTop: '56.25%'
+    },
+    reactPlayer: {
+        position: 'absolute', 
+        top: 0,
+        left: 0
+    },
+    'root': {
+        overflowY: 'hidden'
+    }
+}));
 
 const MediaDisplay = (props) => {
     const { localStream, remoteStream } = props;
+    const classes = useStyles();
 
-    React.useEffect(() => {
-        // let remoteStream = document.querySelector('#remoteVideo').srcObject;
-        // let localStream = document.querySelector('#localVideo').srcObject;
+    // React.useEffect(() => {
 
-        // if (remoteTracks && !remoteStream) {
-        //     remoteTracks
-        //         .forEach(track => {
-        //             remoteStream.srcObject.addTrack(track);
-        //         })
-        // }
-        // console.log(localStream);
-        // localStream.onaddtrack = e => {
-        //     console.log('hi');
-        // }
-        // remoteStream.onaddtrack = e => {
-        //     console.log('remote stream track added')
-        // }
-        // return (
-        //     localStream.removeEventListener('addtrack')
-        // )
-    }, []);
+    // }, []);
 
     return (
-        <div>
+        <div className={classes.root}>
             {/* <video id={localId.slice(1)} playsInline muted autoPlay></video> */}
             {/* <video id={remoteId.slice(1)} playsInline autoPlay></video> */}
-            <ReactPlayer 
-                url={localStream} 
-                width='100%' 
-                height='100vh' 
-                playsinline 
-                playing={true}
-                muted
-            />
-            <ReactPlayer
-                url={remoteStream}
-                playsinline
-                playing={true}
-            />
+            <Grid container>
+                <Grid item xl={6} lg={6} md={6}>
+                    <div className={classes.playerWrapper}>
+                        <ReactPlayer 
+                            url={localStream} 
+                            width='100%' 
+                            height='100%' 
+                            playsinline 
+                            playing={true}
+                            muted
+                            className={classes.reactPlayer}
+                        />
+                    </div>
+                </Grid>
+                <Grid item xl={6} lg={6} md={6}>
+                <div className={classes.playerWrapper}>
+                    <ReactPlayer
+                        url={remoteStream}
+                        playsinline
+                        width='100%'
+                        height='100%'
+                        playing={true}
+                        className={classes.reactPlayer}
+                    />
+                </div>
+                </Grid>
+            </Grid>
         </div>
     );
 }

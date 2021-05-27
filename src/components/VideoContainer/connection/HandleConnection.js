@@ -77,6 +77,7 @@ export default class ConnectionHandler {
         await roomRef.set(roomWithOffer);
         this.roomId = roomRef.id;
         console.log(`New room created with SDP offer. Room ID: ${roomRef.id}`)
+        navigator.clipboard.writeText(`${window.location.hostname}/chat/join?code=${roomRef.id}`);
         // alert(`ROOMID: ${roomRef.id}`)
         //https://www.npmjs.com/package/react-notifications-component
         // https://material-ui.com/components/snackbars/
@@ -194,22 +195,17 @@ export default class ConnectionHandler {
                 { video: false, audio: true }
             );
         }
-        // document.querySelector(localVideo).srcObject = stream;
-        // this.localStream = stream;
+
         stream.getTracks().forEach(track => {
             this.localStream.addTrack(track);
         });
-        // document.querySelector(remoteVideo).srcObject = this.remoteStream;
-        // document.querySelector(remoteVideo).srcObject = stream;
     }
-
     async hangUp(e) {
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         } else {
             firebase.app();
         }
-        // const tracks = document.querySelector('#localVideo').srcObject
 
         if (this.remoteStream) {
             this.remoteStream.getTracks().forEach(track => track.stop());
@@ -235,8 +231,3 @@ export default class ConnectionHandler {
         }
     }
 }
-
-// const connectionHandler = new ConnectionHandler();
-// (async () => {
-//     await connectionHandler.createCall();
-// })();

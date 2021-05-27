@@ -7,7 +7,9 @@ import NavDrawer from './components/Navbar/NavDrawer';
 import React from 'react';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import AccountBoxIcon from '@material-ui/icons/AccountBox'; 
-import Notifications from './components/Notifications';
+// import Notifications from './components/Notifications';
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer } from 'react-notifications';
 
 const drawerItems = [
   {icon: <VideoCallIcon />, text: 'Video Chat', key: 'chat'},
@@ -31,7 +33,8 @@ function App() {
           <Chat />
         </Route>
       </Switch>
-      <Notifications />
+      {/* <Notifications /> */}
+      <NotificationContainer />
     </Router>
   );
 }
