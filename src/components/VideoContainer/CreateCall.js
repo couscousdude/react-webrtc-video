@@ -35,7 +35,7 @@ function CreateCall(props) {
     }
     const handleButtonPressed = () => {
         handleSubmit();
-        NotificationManager.success('Calel Created Successfully.');
+        NotificationManager.success('Call Created Successfully.');
     }
 
     return(

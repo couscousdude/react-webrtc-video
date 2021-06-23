@@ -77,7 +77,6 @@ export default class ConnectionHandler {
         await roomRef.set(roomWithOffer);
         this.roomId = roomRef.id;
         console.log(`New room created with SDP offer. Room ID: ${roomRef.id}`)
-        navigator.clipboard.writeText(`${window.location.hostname}/chat/join?code=${roomRef.id}`);
         // alert(`ROOMID: ${roomRef.id}`)
         //https://www.npmjs.com/package/react-notifications-component
         // https://material-ui.com/components/snackbars/

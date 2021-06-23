@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import ReactPlayer from 'react-player';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
+import ControlBar from './ControlBar';
+import Chat from '../Chat/Chat';
 
 const useStyles = makeStyles(() => ({
     'playerWrapper': {
@@ -29,6 +31,7 @@ const MediaDisplay = (props) => {
 
     return (
         <div className={classes.root}>
+            <Chat />
             {/* <video id={localId.slice(1)} playsInline muted autoPlay></video> */}
             {/* <video id={remoteId.slice(1)} playsInline autoPlay></video> */}
             <Grid container>
@@ -58,6 +61,7 @@ const MediaDisplay = (props) => {
                 </div>
                 </Grid>
             </Grid>
+            <ControlBar />
         </div>
     );
 }
