@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import ControlBar from './ControlBar';
-import Chat from '../Chat/Chat';
+import Chat from '../TextChat/Chat';
 
 const useStyles = makeStyles(() => ({
     'playerWrapper': {
